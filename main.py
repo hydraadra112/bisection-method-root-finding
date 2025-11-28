@@ -9,7 +9,7 @@ if __name__ == '__main__':
                 f=f, # Function to use
                 print_output=True, # Optional to see output per iteration
                 get_logs=True
-                ) # type: ignore    
+                )   
     
     print(root)
     print(logs, type(logs))

@@ -21,13 +21,13 @@ def f(x):
     return x**3 - 4*x - 9
 
 # Find root
-root = find_root(interval=(2, 3), # Interval to be used, packed as (a, b)
+root, logs = find_root(interval=(2, 3), # Interval to be used, packed as (a, b)
                 tolerance=0.0001, # Tolerance
                 f=f,              # Function to use
                 print_output=True # Optional to see output per iteration
+                get_logs=True     # Optional to get logs of calculation
                 )
 
 # Print out root from console
-print(root)
-
+print(root, logs)
 ```
