@@ -1,6 +1,9 @@
 import streamlit as st
 import sympy as sp
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import plotly.graph_objects as go
 from main import run_bisection
 
 
@@ -100,10 +103,35 @@ if st.button("Compute Root"):
             "within ℰ": True
         })
 
-        # CONVERT TO TABLE ADN DISPLAY
+        # CONVERT TO TABLE AND DISPLAY
         st.subheader("📊 Iteration Logs")
         df = pd.DataFrame(processed)
         st.dataframe(df)
+
+        st.subheader("📈 Function Graph with Root")
+
+        # Generate x-values slightly beyond [a, b] for better visualization
+        x_vals = np.linspace(a - 1, b + 1, 400)
+        y_vals = [f(xv) for xv in x_vals]
+
+        plt.figure(figsize=(8, 4))
+        plt.plot(x_vals, y_vals, label=f"f(x) = {equation}", color='blue')
+        plt.axhline(0, color='black', linewidth=0.7)  # x-axis
+
+        # Plot all midpoints (c values) from iterations
+        c_vals = [entry["c"] for entry in processed]
+        plt.scatter(c_vals, [f(c) for c in c_vals], color='orange', label="Midpoints (iterations)", zorder=5)
+
+        # Highlight the root
+        plt.scatter(root, f(root), color='red', s=100, zorder=10, label=f"Root ≈ {root:.6f}")
+
+        plt.xlabel("x")
+        plt.ylabel("f(x)")
+        plt.title("Function Plot with Bisection Method Progress")
+        plt.legend()
+        plt.grid(True)
+        st.pyplot(plt)
+
 
     except Exception as e:
         st.error(f"Error: {str(e)}")
