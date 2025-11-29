@@ -3,13 +3,12 @@ from bisection_method import find_root
 def f(x):
     return x**3 - 4*x - 9
 
-if __name__ == '__main__':
-    root, logs = find_root(interval=(2.0, 3.0), # Interval to be used, packed as (a, b)
-                tolerance=0.0001, # Tolerance
-                f=f, # Function to use
-                print_output=True, # Optional to see output per iteration
-                get_logs=True
-                )   
-    
-    print(root)
-    print(logs, type(logs))
+def run_bisection(a, b, tolerance, f, print_output=False):
+    root, logs = find_root(
+        interval=(a, b),
+        tolerance=tolerance,
+        f=f,
+        print_output=print_output,
+        get_logs=True
+    )
+    return root, logs
