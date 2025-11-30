@@ -66,7 +66,7 @@ def plot_function(a: Real, b: Real, root: Real) -> None:
 
     # D. Combine and Display
     # st.line_chart cannot layer these, so we use st.altair_chart
-    st.altair_chart((line_chart + zero_line + point_chart).interactive(), use_container_width=True)
+    st.altair_chart((line_chart + zero_line + point_chart).interactive(), width='stretch')
 
 
 
