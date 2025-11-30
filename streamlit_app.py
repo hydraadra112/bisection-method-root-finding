@@ -93,16 +93,16 @@ def plot_function(f: Callable, a: Real, b: Real, root: Real) -> None:
 def main():
     # STREAMLIT UI
     st.title("🔢 Bisection Method Root Finder")
-    st.write("Enter the function and interval parameters below.")
     
     # Create two tabs
-    tab1, tab2 = st.tabs(["Root Finder", "Instructions"])
+    tab1, tab2 = st.tabs(["Root Finder", "About"])
     
     with tab1:
-        st.info("💡 You can use standard Python syntax (e.g., `x**3`) or SymPy syntax.")
-        st.caption("Trig functions supported: `sin(x)`, `cos(x)`, `exp(x)`.")
+        st.write("Enter the function and interval parameters below.")
         
         function_input = st.text_input("Enter function f(x):", value="x**3 - 4*x - 9")
+        st.caption("We recommend using Python syntax when defining your equations. Trig functions are supported: `sin(x)`, `cos(x)`, `exp(x)`.")
+        #st.caption("We recommend using Python syntax when defining your equations.")
         
         f_dynamic, error_msg = equation_parser(function_input)
         
@@ -155,24 +155,42 @@ def main():
                 st.error(f"An error occurred during computation: {e}")
 
     with tab2:
-        st.header("How the Bisection Method Works")
-        st.markdown("""
-        The **Bisection Method** is a numerical technique to find a root of a continuous function \(f(x)\) on an interval \([a, b]\) where \(f(a)\) and \(f(b)\) have opposite signs.
-        
-        **Steps:**
-        1. Compute the midpoint: \(midpoint = (a + b)/2\)
-        2. Evaluate \(f(a)\), \(f(midpoint)\), \(f(b)\)
-        3. Determine which subinterval contains the root:
-            - If \(f(a)*f(midpoint) < 0\), root is in [a, midpoint]
-            - Else, root is in [midpoint, b]
-        4. Repeat until \(|b - a| < tolerance\)
+        st.header("What's this about?")
+        st.write("A Streamlit application for root finding using the bisection method. " \
+        "This is one of the core concepts that was taught to us by our instructor, **Mr. John Alexis Gemino**, " \
+        "for our course **CCS 239 - Optimization Theory & Applications**.", unsafe_allow_html=True)
 
-        **How to Use This App:**
-        - **Input Function**: Type your equation using `x` as the variable (e.g., `x^2 - 4`).
-        - **Interval**: Enter `[a, b]` where the root lies.
-        - **Tolerance**: Set the precision.
-        - **Compute**: Click to calculate.
-        """)
+        ref = r'https://flexiple.com/python/bisection-method-python'
+
+        st.write("This application will serve as the output of our final project for the CCS 239 course, where we are " \
+        "tasked to choose a single method that was taught in this course, and implement a GUI for usability. " \
+        "Our group chose the root finding using the [bisection method](%s). We do not have a particular reason in mind when we chose this method, " \
+        "except that we can intuitively say that it is easy to implement without the use of LLM's (or AI chatbots)." % ref)
+
+        st.write("As for the task execution, workload has been delegated throughout the trio.")
+        st.write("**Artacho, Cristopher Ian** was in charge of implementing the basic functionalities and UI of the streamlit application.")
+        st.write("**Carado, John Manuel** was in charge of implementing the root finding solver, and assisted in implementing the streamlit application.")
+        st.write("**Tacuel, Allan Andrews** was in charge of the documentation to be submitted.")
+
+        st.write("The solver, `bisection_method.py` is designed to be a standalone Python module, which means you can copy it onto your device, " \
+        "and use it for personal reasons. You can implement an even more complex UI if you want to, the solver can still be easily integrated. " \
+        "Below is a sample code for the bisection root finder solver in Python. If you seek additional details, simply download the solver, and see the docstring documentation.")
+        code = '''
+from bisection_method import find_root
+# Sample function
+def f(x):
+    return x**3 - 4*x - 9
+
+root, logs = find_root(
+            interval=(2, 3),
+            tolerance=0.0001,
+            f=f,
+            print_output=True,
+            get_logs=True)'''
+        st.code(code, language='python')
+
+        st.write("If you wish to have a customized Python package of root finders or optimizations, I (Manuel) would be very willing to help you out " \
+        "for the next batch of Optimization course takers. I am doing this for the sake of open source, to contribute back to the world.")
 
     st.divider()
     st.caption("Prepared by: ")
