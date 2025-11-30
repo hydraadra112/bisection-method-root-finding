@@ -15,16 +15,15 @@ def f(x):
 
 # HELPER FUNCTIONS
 def get_ba_and_within(df: pd.DataFrame, tolerance: Real) -> pd.DataFrame:
-    """ Calculates and saves the |b-a| & checks tolerance if < |b-a| """
-    # Get |b-a| & Within bool
+    """ Calculates |b-a| & checks if it is within tolerance """
     additional_data: List[Dict[str, Real]] = []
     for i in range(len(df)):
         df_current_index = df.iloc[i]
-        val = (df_current_index['b'] - df_current_index['a'])
-        # within = val < tolerance
+        val = abs(df_current_index['b'] - df_current_index['a'])  # Ensure positive
+        within = val < tolerance
         additional_data.append({
             '|b-a|': val,
-            # 'within': within
+            'within_tolerance': within
         })
     return pd.DataFrame(additional_data)
 
@@ -70,42 +69,82 @@ def plot_function(a: Real, b: Real, root: Real) -> None:
     st.altair_chart((line_chart + zero_line + point_chart).interactive(), use_container_width=True)
 
 
+
+
+
 def main():
     # STREAMLIT UI
     st.title("🔢 Bisection Method Root Finder")
     st.write("Enter the function and interval parameters below.")
+    # Create two tabs
+    tab1, tab2 = st.tabs(["Root Finder", "How It Works / Instructions"])
+    with tab1:
+        st.write("Enter the function and interval parameters below.")
+        col1, col2 = st.columns(2)
+        with col1:
+            a = st.number_input("Interval (a)", value=2.0)
+            b = st.number_input("Interval (b)", value=3.0)
+        with col2:
+            # start_x = st.number_input("x (starting value)", value=0.0)  # Required by instructions
+            tolerance = st.number_input("Tolerance ℰ", value=0.0001, format="%.5f", step=0.0001)
+            compute_root = st.button("Compute Root")
 
-    col1, col2 = st.columns(2)
-    with col1:
-        a = st.number_input("Interval (a)", value=2.0)
-        b = st.number_input("Interval (b)", value=3.0)
-    with col2:
-        # start_x = st.number_input("x (starting value)", value=0.0)  # Required by instructions
-        tolerance = st.number_input("Tolerance ℰ", value=0.0001, format="%.5f", step=0.0001)
-        compute_root = st.button("Compute Root")
+        if compute_root:
+            root, logs = find_root((a,b), tolerance, f, False, True)
+            
+            df = pd.DataFrame(logs)
+            ba_within = get_ba_and_within(df.copy(), tolerance)
+            df = pd.concat([df, ba_within], axis=1)
 
-    if compute_root:
-        root, logs = find_root((a,b), tolerance, f, False, True)
-        
-        df = pd.DataFrame(logs)
-        ba_within = get_ba_and_within(df.copy(), tolerance)
-        df = pd.concat([df, ba_within], axis=1)
+            df.drop(labels=['iteration'], axis=1, inplace=True)    
+            df.index += 1
 
-        df.drop(labels=['iteration'], axis=1, inplace=True)    
-        df.index += 1
-        st.success(f"Root found: {root}")
+            st.success(f"Root found: {root}")
 
-        col3, col4 = st.columns(2)
-        with col3:
-            st.dataframe(df)
-        with col4:
-            plot_function(a,b,root)
+            # Create a final row explicitly with the root
+            final_row = {
+                'a': root,
+                'b': root,
+                'midpoint': root,
+                'f(a)': f(root),
+                'f(b)': f(root),
+                'f(midpoint)': f(root),
+                '|b-a|': 0.0,
+                'within_tolerance': True
+            }
+            df_final = pd.concat([df, pd.DataFrame([final_row])], ignore_index=True)
 
-    st.divider()
-    st.caption("Prepared by: ")
-    st.caption("Artacho, Cristopher Ian")
-    st.caption("Carado, John Manuel")
-    st.caption("Tacuel, Allan Andrews")
+            col3, col4 = st.columns(2)
+            with col3:
+                st.dataframe(df_final)
+            with col4:
+                plot_function(a, b, root)
+
+        with tab2:
+            st.header("How the Bisection Method Works")
+            st.markdown("""
+            The **Bisection Method** is a numerical technique to find a root of a continuous function \(f(x)\) on an interval \([a, b]\) where \(f(a)\) and \(f(b)\) have opposite signs.
+            
+            **Steps:**
+            1. Compute the midpoint: \(midpoint = (a + b)/2\)
+            2. Evaluate \(f(a)\), \(f(midpoint)\), \(f(b)\)
+            3. Determine which subinterval contains the root:
+                - If \(f(a)*f(midpoint) < 0\), root is in [a, midpoint]
+                - Else, root is in [midpoint, b]
+            4. Repeat until \(|b - a| < tolerance\)
+
+            **How to Use This App:**
+            - Enter the interval `[a, b]` where the root lies.
+            - Enter the desired **tolerance** (how precise you want the root).
+            - Click **Compute Root** to see the iteration table and the plot.
+            - The **final row** shows the root explicitly.
+            """)
+
+        st.divider()
+        st.caption("Prepared by: ")
+        st.caption("Artacho, Cristopher Ian")
+        st.caption("Carado, John Manuel")
+        st.caption("Tacuel, Allan Andrews")
         
         
 
