@@ -85,9 +85,31 @@ def plot_function(f: Callable, a: Real, b: Real, root: Real) -> None:
         y='f(x)',
         tooltip=[alt.Tooltip('x', format='.5f'), alt.Tooltip('f(x)', format='.5f')]
     )
+    
+    # 4. Marker for initial 'a' (start of interval)
+    # Using a dashed green line to mark the lower bound 'a'
+    a_marker = alt.Chart(pd.DataFrame({'a': [a]})).mark_rule(
+        color='green', 
+        strokeDash=[5, 5], 
+        size=1.5
+    ).encode(
+        x='a',
+        tooltip=[alt.Tooltip('a', title='a (Interval Start)', format='.5f')]
+    )
 
-    # D. Combine and Display
-    st.altair_chart((line_chart + zero_line + point_chart).interactive(), width='stretch')
+    # 5. Marker for initial 'b' (end of interval)
+    # Using a dashed blue line to mark the upper bound 'b'
+    b_marker = alt.Chart(pd.DataFrame({'b': [b]})).mark_rule(
+        color='blue', 
+        strokeDash=[5, 5], 
+        size=1.5
+    ).encode(
+        x='b',
+        tooltip=[alt.Tooltip('b', title='b (Interval End)', format='.5f')]
+    )
+
+    # D. Combine and Display - Add the new markers
+    st.altair_chart((line_chart + zero_line + point_chart + a_marker + b_marker).interactive(), width='stretch')
 
 
 def main():
