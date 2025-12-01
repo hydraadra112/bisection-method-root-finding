@@ -117,7 +117,7 @@ def main():
     st.title("🔢 Bisection Method Root Finder")
     
     # Create two tabs
-    tab1, tab2 = st.tabs(["Root Finder", "About"])
+    tab1, tab2 = st.tabs(["Root Finder", "More"])
     
     with tab1:
         st.write("Enter the function and interval parameters below.")
@@ -179,23 +179,41 @@ def main():
     with tab2:
         st.header("What's this about?")
         st.write("A Streamlit application for root finding using the bisection method. " \
-        "This is one of the core concepts that was taught to us by our instructor, **Mr. John Alexis Gemino**, " \
+        "This is one of the core concepts that has been taught to us by our instructor, **Mr. John Alexis Gemino**, " \
         "for our course **CCS 239 - Optimization Theory & Applications**.", unsafe_allow_html=True)
 
         ref = r'https://flexiple.com/python/bisection-method-python'
 
-        st.write("This application will serve as the output of our final project for the CCS 239 course, where we are " \
-        "tasked to choose a single method that was taught in this course, and implement a GUI for usability. " \
+        st.write("This application will serve as the output of our final project for this course, where we are " \
+        "tasked to choose a single method that was taught, and implement a GUI for usability. " \
         "Our group chose the root finding using the [bisection method](%s). We do not have a particular reason in mind when we chose this method, " \
         "except that we can intuitively say that it is easy to implement without the use of LLM's (or AI chatbots)." % ref)
 
-        st.write("As for the task execution, workload has been delegated throughout the trio.")
-        st.write("**Artacho, Cristopher Ian** was in charge of implementing the basic functionalities and UI of the streamlit application.")
-        st.write("**Carado, John Manuel** was in charge of implementing the root finding solver, and assisted in implementing the streamlit application.")
-        st.write("**Tacuel, Allan Andrews** was in charge of the documentation to be submitted.")
+        st.header("Team and Tasks")
+        st.write("As for the task execution, the workload has been delegated equally to us three.")
+        st.markdown(body='''
+                    - **Artacho, Cristopher Ian** was in charge of implementing the basic functionalities and UI of the streamlit application.
+                    - **Carado, John Manuel** was in charge of implementing the root finding solver, and assisted in implementing the streamlit application.
+                    - **Tacuel, Allan Andrews** was in charge of the documentation to be submitted.
+                        ''')
 
-        st.write("The solver, `bisection_method.py` is designed to be a standalone Python module, which means you can copy it onto your device, " \
-        "and use it for personal reasons. You can implement an even more complex UI if you want to, the solver can still be easily integrated. " \
+        st.write("Our goal here is simple, and that is to implement all required features as listed below:")
+        st.markdown(body='''
+                        - The system shall have a user interface for usability 
+                        - The system shall allow users to input polynomial functions
+                        - The system shall allow users to input the right and left intervals
+                        - The system shall allow users to input the tolerance level
+                        - The system shall compute and display the approximate root using the chosen method (bisection method in our case)
+                        - The system shall display a table with calculated values for each iteration
+                        - The system shall graphically produce a plot of the function, pinpointing the root and bounding it with specified intervals 
+                        ''')
+        
+        st.write("These features are written out as requirements from the official final project manual. These may sound alot, but the " \
+        "general execution of this final project was fun and engaging.")
+
+        st.header("Future Uses")
+        st.write("The solver, `bisection_method.py` is designed to be a standalone Python module, which means you " \
+        "utilize the solver for whatever reasons you may have. You can implement an even more complex UI, or use the solver as a demo in the future. The solver can still be easily integrated. " \
         "Below is a sample code for the bisection root finder solver in Python. If you seek additional details, simply download the solver, and see the docstring documentation.")
         code = '''
 from bisection_method import find_root
@@ -211,8 +229,8 @@ root, logs = find_root(
             get_logs=True)'''
         st.code(code, language='python')
 
-        st.write("If you wish to have a customized Python package of root finders or optimizations, I (Manuel) would be very willing to help you out " \
-        "for the next batch of Optimization course takers. I am doing this for the sake of open source, to contribute back to the world.")
+        st.caption("To our Professor: If you wish to have a customized Python package of root finders or optimizations, I (Manuel) would be eager to help you out " \
+        "in its implementation. So that, I can assist you, Sir, for the next batch of Optimization course takers for demonstration purposes.")
 
     st.divider()
     st.caption("Prepared by: ")
