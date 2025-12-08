@@ -184,20 +184,20 @@ def main():
 
         ref = r'https://flexiple.com/python/bisection-method-python'
 
-        st.write("This application will serve as the output of our final project for this course, where we are " \
+        st.write("This application serves as our final project for this course, where we are " \
         "tasked to choose a single method that was taught, and implement a GUI for usability. " \
         "Our group chose the root finding using the [bisection method](%s). We do not have a particular reason in mind when we chose this method, " \
-        "except that we can intuitively say that it is easy to implement without the use of LLM's (or AI chatbots)." % ref)
+        "except that we intuitively believe it was easy to implement without the use of LLM's (or AI chatbots)." % ref)
 
         st.header("Team and Tasks")
-        st.write("As for the task execution, the workload has been delegated equally to us three.")
+        st.write("As for the task execution, the workload has been delegated equally to us three members.")
         st.markdown(body='''
                     - **Artacho, Cristopher Ian** was in charge of implementing the basic functionalities and UI of the streamlit application.
                     - **Carado, John Manuel** was in charge of implementing the root finding solver, and assisted in implementing the streamlit application.
-                    - **Tacuel, Allan Andrews** was in charge of the documentation to be submitted.
+                    - **Tacuel, Allan Andrews** was in charge of the documentation to be submitted as compliance.
                         ''')
 
-        st.write("Our goal here is simple, and that is to implement all required features as listed below:")
+        st.write("Our goal here was simple, and that was to implement all required features as listed below:")
         st.markdown(body='''
                         - The system shall have a user interface for usability 
                         - The system shall allow users to input polynomial functions
@@ -208,11 +208,11 @@ def main():
                         - The system shall graphically produce a plot of the function, pinpointing the root and bounding it with specified intervals 
                         ''')
         
-        st.write("These features are written out as requirements from the official final project manual. These may sound alot, but the " \
+        st.write("These features are written out as requirements from the official final project manual. These may sound alot, but we can say that the " \
         "general execution of this final project was fun and engaging.")
 
         st.header("Future Uses")
-        st.write("The solver, `bisection_method.py` is designed to be a standalone Python module, which means you " \
+        st.write("The solver, `bisection_method.py` is designed to be a standalone Python module, which means you can " \
         "utilize the solver for whatever reasons you may have. You can implement an even more complex UI, or use the solver as a demo in the future. The solver can still be easily integrated. " \
         "Below is a sample code for the bisection root finder solver in Python. If you seek additional details, simply download the solver, and see the docstring documentation.")
         code = '''
@@ -230,8 +230,7 @@ root, logs = find_root(
         st.code(code, language='python')
 
         st.caption("To our Professor: If you wish to have a customized Python package of root finders or optimizations, I (Manuel) would be eager to help you out " \
-        "in its implementation. So that, I can assist you, Sir, for the next batch of Optimization course takers for demonstration purposes.")
-
+        "in its implementation. I am eager to transform this course as accessible as possible to tech students.")
     st.divider()
     st.caption("Prepared by: ")
     st.caption("Artacho, Cristopher Ian")
